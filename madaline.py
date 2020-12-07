@@ -2,6 +2,9 @@ from math import sqrt
 
 
 def prepare_pattern(pettern):
+    '''
+    Create vectors based on values from loaded files
+    '''
     value_pattern = list(pettern.replace('#', '1').replace('-', '0'))
     value = list(map(int, value_pattern))
     x = sum(value)
@@ -12,6 +15,9 @@ def prepare_pattern(pettern):
 
 
 def load_data(filename):
+    '''
+    Load and prepare values stored in files
+    '''
     with open(filename, newline='') as file:
         data = file.read().strip().split('\r\n')
 
@@ -31,6 +37,9 @@ def load_data(filename):
 
 
 def training_data(data):
+    '''
+    Preparing a training set
+    '''
     patterns = data[1]
     weights = []
     layers = []
@@ -45,6 +54,9 @@ def training_data(data):
 
 
 def compute(test, layer, layer_index):
+    '''
+    Calculate the degree of fit
+    '''
     value = 0
     for i in range(len(layer[layer_index])):
         value += layer[layer_index][i] * test[i]
@@ -52,6 +64,9 @@ def compute(test, layer, layer_index):
 
 
 def madaline(layer, test_data):
+    '''
+    Comparison of test and training results
+    '''
     outputs = []
     layer_index = 0
     for letter in test_data[0]:
@@ -67,7 +82,13 @@ def madaline(layer, test_data):
         print(f'Letter {found_letter} was recognized. Level of confidence = {round(found_result, 2)}')
 
 
-train_data = load_data('train.txt')
-test_data = load_data('test.txt')
+# 4x4
+train_data = load_data('train_4x4.txt')
+test_data = load_data('test_4x4.txt')
+layers = training_data(train_data)
+madaline(layers, test_data)
+# 16x16
+train_data = load_data('train_16x16.txt')
+test_data = load_data('test_16x16.txt')
 layers = training_data(train_data)
 madaline(layers, test_data)
